@@ -5,3 +5,5 @@ authors = ["Tim Hütz <tim@huetz.biz>"]
 edition = "2018"
 
 [dependencies]
+clap = {version = "*", features = ["yaml"]}
+sha2 = "*"

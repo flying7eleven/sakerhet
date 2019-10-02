@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::fs::metadata;
 use std::fs::File;
 use std::string::ToString;
 
@@ -17,6 +18,15 @@ impl Default for Configuration {
 }
 
 impl Configuration {
+    pub fn from_defaut_locations() -> Configuration {
+        if metadata("/etc/sakerhet/config.yml").is_ok() {
+            return Configuration::from_file("/etc/sakerhet/config.yml");
+        } else if metadata("config.yml").is_ok() {
+            return Configuration::from_file("config.yml");
+        }
+        Configuration::default()
+    }
+
     pub fn from_file(config_file: &str) -> Configuration {
         let file_handle = File::open(config_file);
         if file_handle.is_ok() {

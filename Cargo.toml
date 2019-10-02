@@ -1,9 +1,15 @@
 [package]
 name = "sakerhet"
+description = "Ensure that your system was not modified since its last use."
 version = "0.1.0"
 authors = ["Tim Hütz <tim@huetz.biz>"]
 edition = "2018"
 
 [dependencies]
+chrono = "*"
 clap = {version = "*", features = ["yaml"]}
+fern = "*"
+log = "*"
+serde = { version = "*", features = ["derive"] }
+serde_yaml = "*"
 sha2 = "*"

@@ -6,12 +6,16 @@ use std::string::ToString;
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct Configuration {
     #[serde(default)]
+    pub integrity_file: String,
+
+    #[serde(default)]
     pub observed_directories: Vec<String>,
 }
 
 impl Default for Configuration {
     fn default() -> Self {
         Configuration {
+            integrity_file: "/var/lib/sakerhet/integrity.yml".to_string(),
             observed_directories: vec!["/boot".to_string(), "/usr/bin".to_string()],
         }
     }

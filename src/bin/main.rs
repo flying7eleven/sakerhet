@@ -2,35 +2,7 @@ use chrono::Local;
 use clap::{crate_authors, crate_description, crate_version, load_yaml, App};
 use log::{error, LevelFilter};
 use sakerhet::configuration::Configuration;
-use sha2::{Digest, Sha512};
-use std::fs::{read_dir, DirEntry, File};
-use std::io::{self, copy};
-use std::path::Path;
-
-fn visit_dirs(dir: &Path, cb: &dyn Fn(&DirEntry)) -> io::Result<()> {
-    if dir.is_dir() {
-        for entry in read_dir(dir)? {
-            let entry = entry?;
-            let path = entry.path();
-            if path.is_dir() {
-                visit_dirs(&path, cb)?;
-            } else {
-                cb(&entry);
-            }
-        }
-    }
-    Ok(())
-}
-
-fn handle_file(dir_entry: &DirEntry) {
-    let mut file = File::open(&dir_entry.path()).unwrap();
-    let mut hasher = Sha512::new();
-
-    let n = copy(&mut file, &mut hasher).unwrap();
-    let hash = hasher.result();
-
-    println!("{} -> {:x}", dir_entry.path().to_str().unwrap(), hash);
-}
+use sakerhet::subcommands::rebuild::run_subcommand as run_rebuild;
 
 fn setup_logger(log_level: LevelFilter) {
     let _ = fern::Dispatch::new()
@@ -69,7 +41,9 @@ fn main() {
     // check which subcommand should be executed and call it
     if let Some(_) = matches.subcommand_matches("config") {
         println!("{}", serde_yaml::to_string(&configuration).unwrap());
+    } else if let Some(_) = matches.subcommand_matches("rebuild") {
+        run_rebuild(&configuration);
     } else {
-        error!("No known subcommand was selected. Please refer to the help for information about how to use this application.");
+        error!("No known sub-command was selected. Please refer to the help for information about how to use this application.");
     }
 }

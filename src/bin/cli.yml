@@ -5,10 +5,5 @@ about: <filled automatically>
 subcommands:
   - config:
       about: Just print our the currently loaded config (can be piped into a configuration file).
-  - validate:
-      about: Read and validate the confiuration. This will also test connections to the Threema gateway.
-      args:
-        - send:
-            long: send
-            takes_value: false
-            help: Send a message to all configured recpients for validation purposes.
+  - rebuild:
+      about: Rebuild the integrity database using the currently loaded configuration.

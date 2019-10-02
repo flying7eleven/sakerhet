@@ -7,3 +7,5 @@ subcommands:
       about: Just print our the currently loaded config (can be piped into a configuration file).
   - rebuild:
       about: Rebuild the integrity database using the currently loaded configuration.
+  - validate:
+      about: Check the system integrity using the currently loaded configuration.
